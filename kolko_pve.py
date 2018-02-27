@@ -34,6 +34,9 @@ def AI_moves(tab):
     best_moves=[4,0,8,2,6,7,3,1,5]
     for i,choice in enumerate(best_moves):
         if i>1:
+            if tab[8]:
+                print('my secret move nahnah :)')
+                choice = random.choice(best_moves[i:])
             choice = random.choice(best_moves[i:])
         choice = AI_win_or_block(choice)
         if not tab[choice]:
