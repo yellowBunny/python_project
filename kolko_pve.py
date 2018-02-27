@@ -4,7 +4,7 @@ def printer(tab):
     'print table with positions to choose'
     print('{}\n{}\n{}'.format(tab[0],tab[1],tab[2]))
 
-def instert_to_tab(player,n):
+def instert_to_tab(player=None,n=None):
     '''inserting player to table return update table
         player - X or O
         n - position number'''
@@ -36,7 +36,7 @@ def AI_moves(tab):
         if i>1:
             if tab[8]:
                 print('my secret move nahnah :)')
-                choice = random.choice(best_moves[i:])
+                choice = random.choice(best_moves[i+1:])
             choice = random.choice(best_moves[i:])
         choice = AI_win_or_block(choice)
         if not tab[choice]:
@@ -86,6 +86,8 @@ player = 0
 #main
 if __name__ == '__main__':
 
+#view tab
+    printer(instert_to_tab())
     while True:
 #set choice for player or AI
         choice = human() if player==0 else AI_moves(used_nums)
