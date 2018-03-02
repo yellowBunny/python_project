@@ -3,7 +3,7 @@ import kolko_pve
 import random
 
 sign = ['X','O','']
-l = [[random.choice(sign) for lenght in range(9)] for arrays in range(10)]
+l = [[random.choice(sign) for lenght in range(9)] for arrays in range(100)]
 
 class TestKolko(unittest.TestCase):
 
@@ -14,29 +14,33 @@ class TestKolko(unittest.TestCase):
             self.assertEqual(kolko_pve.AI_moves(dd[key]),key)
 
     def test_AI_moves_random(self):
-        d = {}
+
         way_to_win = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [6, 4, 2]]
         best_moves = [4, 0, 8, 2, 6, 7, 3, 1, 5]
+
+        d = {tuple(key):[] for key in l if not all(pos for pos in key)}
+
 
         def win_in_row(tab, sign):
             for arr in way_to_win:
                 if sum(1 for pos in arr if tab[pos] == '{}'.format(sign)) >= 2:
                     choice = [pos for pos in arr if not tab[pos]]
                     if choice:
-                        return choice[-1]
+                        return '0' if choice[-1]==0 else choice[-1]
         for arr in l:
             x = win_in_row(arr, 'X')
             o = win_in_row(arr, 'O')
             for i in best_moves:
                 if not arr[i]:
-                    d[tuple(arr)] = i
+                    d[tuple(arr)] = [i]
                     if x:
-                        d[tuple(arr)] = x
+                        d[tuple(arr)] += [int(x)]
                     if o:
-                        d[tuple(arr)] = o
+                        d[tuple(arr)] += [int(o)]
                     break
+
         for key in d:
-            self.assertEqual(kolko_pve.AI_moves(key),d[key])
+            self.assertIn(kolko_pve.AI_moves(key),d[key])
 
 
     def test_draw(self):
@@ -59,5 +63,4 @@ class TestKolko(unittest.TestCase):
 
 
 if __name__ == '__main__':
-
     unittest.main()
