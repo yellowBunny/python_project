@@ -31,34 +31,34 @@ def draw(tab):
 def AI_moves(tab):
     'Computer movments return index of empty field '
     print('AI moves')
+    #print(tab)
     best_moves=[4,0,8,2,6,7,3,1,5]
     for i,choice in enumerate(best_moves):
-        if i>1:
-            if tab[8]:
-                print('my secret move nahnah :)')
-                choice = random.choice(best_moves[i+1:])
-            choice = random.choice(best_moves[i:])
-        choice = AI_win_or_block(choice)
+        choice=best_moves[i]
+        if sum(1 for i in [0,8] if tab[i]=='X')==2 or sum(1 for i in [2,6] if tab[i]=='X')==2 \
+                and sum(1 for i in best_moves if tab[i])==3:
+            choice = random.choice(best_moves[5:])
+        choice = AI_win_or_block(choice,tab)
         if not tab[choice]:
             return choice
 
-def AI_win_or_block(choice):
+def AI_win_or_block(choice,tab):
     '''Ai advance movments
     when player have two fileds in row or columns AI block player,
     however when a AI have two fields in row or columns take third field to win '''
     # way to win
     for arr in way_to_win:
-        if sum([1 for pos in arr if used_nums[pos]=='O'])>=2:
-            advance_choice = [pos for pos in arr if used_nums[pos]=='']
+        if sum([1 for pos in arr if tab[pos]=='O'])>=2:
+            advance_choice = [pos for pos in arr if tab[pos]=='']
             if advance_choice:
-                print('advance choice to win')
+                #print('advance choice to win')
                 return advance_choice[-1]
     # way to block
     for arr in way_to_win:
-        if sum([1 for pos in arr if used_nums[pos] == 'X']) >= 2:
-            advance_choice = [pos for pos in arr if used_nums[pos] == '']
+        if sum([1 for pos in arr if tab[pos] == 'X']) >= 2:
+            advance_choice = [pos for pos in arr if tab[pos] == '']
             if advance_choice:
-                print('advance choice block')
+                #print('advance choice block')
                 return advance_choice[-1]
     return choice
 
