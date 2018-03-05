@@ -31,7 +31,7 @@ def draw(tab):
 def AI_moves(tab):
     'Computer movments return index of empty field '
     print('AI moves')
-    print(tab)
+    #print(tab)
     best_moves=[4,0,8,2,6,7,3,1,5]
     for i,choice in enumerate(best_moves):
         choice=best_moves[i]
@@ -65,13 +65,36 @@ def AI_win_or_block(choice,tab):
 def human(choice=None):
     'Human movement return chossen empty field'
     while 1:
-        choice = int(input('Human choice position od 0-8: '))
-        if 0<=choice<=8:
-            if used_nums[choice]=='':
-                return choice
-            else: print('field occupied try again')
-        else: print('Wrong choice try again 0-8')
+        choice = input('Human choice position od 0-8: ')
+        if choice.isdigit():
+            choice = int(choice)
+            if 0<=choice<=8:
+                if used_nums[choice]=='':
+                    return choice
+                else: print('field occupied try again')
+            else: print('Wrong choice try again 0-8')
+        else:
+            print('{} is not digit try again'.format(choice))
 
+
+def firs_or_second():
+    'choice who have first move player or AI'
+    user_name = None
+    while 1:
+        user_name = input('Enter player name :')
+        if len(user_name)>0:
+            break
+
+    while True:
+        choice  = input('{} Want to be first or not y/n: '.format(user_name))
+        if choice == 'y':
+            print('{} Make your first move you are "X"'.format(user_name))
+            return '0'
+        elif choice == 'n':
+            print('IA starts first')
+            return 1
+        else:
+            print('Wrong choice try again ')
 
 # varibles
 tab = [['0','1','2'],
@@ -81,11 +104,12 @@ tab = [['0','1','2'],
 way_to_win = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[6,4,2]]
 used_nums = ['','','','','','','','','']
 players = ['X','O']
-player = 0
+
 
 #main
 if __name__ == '__main__':
 
+    player = int(firs_or_second())
 #view tab
     printer(instert_to_tab())
     while True:
