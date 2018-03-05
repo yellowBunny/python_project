@@ -31,10 +31,7 @@ def draw(tab):
 def AI_moves(tab):
     'Computer movments return index of empty field '
     print('AI moves')
-<<<<<<< HEAD
     #print(tab)
-=======
->>>>>>> 8c65893decafd07d2b3075cfdff397453a71b6a5
     best_moves=[4,0,8,2,6,7,3,1,5]
     for i,choice in enumerate(best_moves):
         choice=best_moves[i]
