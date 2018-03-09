@@ -3,7 +3,7 @@ class Hangman:
         The player give a letter if letter is in word show that letter in list
         otherwise lose his loses movments'''
 
-    def __init__(self,word,moves,empty_lst):
+    def __init__(self,word,moves=None,empty_lst=None):
 # list with empty hiden elements
         self.empty_lst = empty_lst
 # word who we look for
@@ -31,6 +31,7 @@ class Hangman:
                 indexes += [i]
         for i in indexes:
             self.empty_lst[i] = choice
+        return self.empty_lst
 
 
 def main(instance,word):
