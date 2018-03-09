@@ -12,17 +12,3 @@ def win_in_row(tab, sign):
             if choice:
                 return '0' if choice[-1]==0 else choice[-1]
 
-
-for arr in l:
-    x = win_in_row(arr, 'X')
-    o = win_in_row(arr, 'O')
-    for i in best_moves:
-        if not arr[i]:
-            d[tuple(arr)] +=[i]
-            if x:
-                d[tuple(arr)]+=[int(x)]
-            if o:
-                d[tuple(arr)]+=[int(o)]
-            break
-
-print(d)
