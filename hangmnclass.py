@@ -1,4 +1,5 @@
 from random import choice
+
 class Hangman:
     '''SIMPLE GAME FOR TWO PLAYERS. THEY MUST FIND CORRECT WORD!
         The player give a letter if letter is in word show that letter in list
