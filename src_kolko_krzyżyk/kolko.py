@@ -1,28 +1,57 @@
+class TicTacToe:
+    #class veribles
+    used_nums = ['','','','','','','','','']
+    board = [['0', '1', '2'],
+            ['3', '4', '5'],
+            ['6', '7', '8']]
+    way_to_win = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6],
+                  [1, 4, 7], [2, 5, 8], [0, 4, 8], [6, 4, 2]]
 
-def printer(board):
-    'print board with positions to choose'
-    print('{}\n{}\n{}'.format(board[0], board[1], board[2]))
+    def __init__(self):
+        self.used_nums = self.used_nums
+        self.board = self.board
+        self.way_to_win = self.way_to_win
 
-def instert_to_board(player, player_choice, board):
-    '''inserting player to board return update board '''
-    counter = 0
-    for arr in board:
-        for i, pos in enumerate(arr):
-            if player_choice == counter:
-                arr[i] = 'X' if player == 0 else 'O'
-            counter += 1
-    return board
+    def printer(self):
+        'print board with positions to choose'
+        print('{}\n{}\n{}'.format(self.board[0], self.board[1], self.board[2]))
 
-def winner(tab,way_to_win):
-    '''check who win. Return True when anybody win.'''
-    for arr in way_to_win:
-        if (0==tab[arr[0]]==tab[arr[1]]==tab[arr[2]]or
-            1==tab[arr[0]]==tab[arr[1]]==tab[arr[2]]):
-            return True
+    def instert_to_board(self, player_choice,player):
+        '''inserting player to board return update board '''
+        counter = 0
+        for arr in self.board:
+            for i, pos in enumerate(arr):
+                if player_choice == counter:
+                    arr[i] = 'X' if player == 0 else 'O'
+                counter += 1
+        return self.board
 
-def draw(board):
-    'when all fild are occupied in used_nums return True'
-    return all(board)
+    def winner(self):
+        '''check who win. Return True when anybody win.'''
+        for arr in self.way_to_win:
+            if (0 == self.board[arr[0]] == self.board[arr[1]] == self.board[arr[2]] or
+                1 == self.board[arr[0]] == self.board[arr[1]] == self.board[arr[2]]):
+                return True
+
+    def draw(self):
+        'when all fild are occupied in used_nums return True'
+        return all(self.board)
+
+
+p1 = TicTacToe()
+p2 = TicTacToe()
+player = 0
+# while 1:
+#     print(player)
+#     choice = input('Wpisz : ')
+#     print(p1.instert_to_board(int(choice),player))
+#     print(p1.printer())
+#     if player == 0:
+#         player = 1
+#     else:
+#         player = 0
+
+
 
 def main_func(player, board_with_fields, used_nums, way_to_win):
     'main function'
@@ -50,23 +79,9 @@ def main_func(player, board_with_fields, used_nums, way_to_win):
                 print('field occupied try again')
         else:
             print('Wrong chooice try again 0-8')
+#
 
-
-
-# table to view
-board_with_fields = [['0','1','2'],
-                    ['3','4','5'],
-                    ['6','7','8']]
-# list with choosen positions
-used_nums = ['','','','','','','','','']
-
-way_to_win = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[6,4,2]]
-player = 0
-
-# [0, 1, 2]
-# [3, 4, 5]
-# [6, 7, 8]
-
-#main
-if __name__ == '__main__':
-    main_func(player, board_with_fields, used_nums, way_to_win)
+#
+# #main
+# if __name__ == '__main__':
+#     main_func(player, board_with_fields, used_nums, way_to_win)
