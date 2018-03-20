@@ -2,36 +2,43 @@
 class TicTacToe:
 
     def __init__(self,martix):
-        self.board = self.prepare_board(martix)
-        self.used_nums = ['' for loop in range(martix*martix)]
+        self.matrix = martix
+        self.board = self.prepare_board()
+        self.used_nums = ['' for _ in range(martix*martix)]
         self.way_to_win = []
+
 
     def printer(self):
         'print board with positions to choose'
-        for arr in self.board:
-            print(arr)
+        pattern = ' {}{}|'.format('{}',' '*len(str(self.matrix*self.matrix)))
 
-    def prepare_board(self,matrix):
+        for arr in self.board:
+            s = ''.join(pattern.format(pos) if pos <= 9 else ' {} |'.format(pos)
+            if pos<=99 else ' {}|'.format(pos) for pos in arr).strip('|')
+            print(s)
+
+
+    def prepare_board(self):
         '''preparing a board to play matrix board'''
-        if type(matrix)!= int:
+        if type(self.matrix)!= int:
             raise ValueError
         board = []
         start = 0
-        next_numbers = matrix
-        for arr in range(matrix):
+        next_numbers = self.matrix
+        for arr in range(self.matrix):
             board+=[[i for i in range(start,next_numbers)]]
-            start+=matrix
-            next_numbers+=matrix
+            start+=self.matrix
+            next_numbers+=self.matrix
         return board
 
     def instert_to_board(self, player, player_choice):
         '''inserting player to board return update board '''
         counter = 0
         for arr in self.board:
-            for i, pos in enumerate(arr):
+            for i in range(len(arr)):
                 if player_choice == counter:
                     arr[i] = 'X' if player == 0 else 'O'
-                    self.used_nums[pos]=player
+                    self.used_nums[counter] = player
                 counter += 1
         return self.board
 
@@ -54,16 +61,11 @@ class TicTacToe:
         print(self.printer())
         print(self.instert_to_board(0,15))
         print(self.instert_to_board(1,0))
+        print(self.instert_to_board(0,4))
         print(self.used_nums)
 
-game = TicTacToe(4)
+game = TicTacToe(11)
 
 if __name__ == '__main__':
 
     game.main_func()
-
-
-
-
-
-#     game.main_func()
