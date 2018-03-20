@@ -7,19 +7,18 @@ class TicTacToe:
         self.used_nums = ['' for _ in range(martix*martix)]
         self.way_to_win = []
 
-
     def printer(self):
-        'print board with positions to choose'
-        pattern = ' {}{}|'.format('{}',' '*len(str(self.matrix*self.matrix)))
-
-        for arr in self.board:
-            s = ''.join(pattern.format(pos) if pos <= 9 else ' {} |'.format(pos)
-            if pos<=99 else ' {}|'.format(pos) for pos in arr).strip('|')
+        '''print board with positions to choose'''
+        pattern = ' {}{}|'.format('{}',' ')
+        for i in range(len(self.board)):
+            s = ''.join(pattern.format(str(pos).rjust(len(str(self.matrix**2))))
+                        for pos in self.board[i]).strip('|')
             print(s)
-
+            if i<len(self.board)-1:
+                print('-'*(len(str(self.matrix**2))+3)*len(self.board[i]))
 
     def prepare_board(self):
-        '''preparing a board to play matrix board'''
+        '''preparing a board to play - matrix board'''
         if type(self.matrix)!= int:
             raise ValueError
         board = []
@@ -33,6 +32,8 @@ class TicTacToe:
 
     def instert_to_board(self, player, player_choice):
         '''inserting player to board return update board '''
+        if type(player_choice)!=int:
+            raise ValueError
         counter = 0
         for arr in self.board:
             for i in range(len(arr)):
@@ -56,16 +57,14 @@ class TicTacToe:
 
     def main_func(self):
         'main function'
-        print(self.used_nums)
-        # print(self.board)
-        print(self.printer())
         print(self.instert_to_board(0,15))
         print(self.instert_to_board(1,0))
         print(self.instert_to_board(0,4))
         print(self.used_nums)
+        print(self.printer())
 
-game = TicTacToe(11)
+
+game = TicTacToe(20)
 
 if __name__ == '__main__':
-
     game.main_func()
