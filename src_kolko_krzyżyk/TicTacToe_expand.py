@@ -1,5 +1,8 @@
 
 class TicTacToe:
+    '''Simple game for two person in Tic Tac Toe.
+     Player decides how big the board is. Valid board (2 to n)
+     where board are matrix n x n. Good Luck and Have Fun.'''
 
     def __init__(self,martix):
         self.matrix = martix
@@ -31,17 +34,19 @@ class TicTacToe:
             next_numbers+=self.matrix
         return board
 
-    def instert_to_board(self, player, player_choice):
-        '''inserting player to board return update board '''
+    def valid_value(self):
+        '''make sure if input value are valid - is digit'''
         while True:
-            # check if variable are digit
+            choice = input('Choose field 0-{}: '.format(len(self.used_nums) - 1))
             try:
-                player_choice = int(player_choice)
-                break
+                choice = int(choice)
+                return choice
             except:
                 print('only numbers please')
-                return False
 
+
+    def instert_to_board(self, player, player_choice):
+        '''inserting player to board return update board '''
         if 0 <= player_choice <= len(self.used_nums):
             if self.used_nums[player_choice] == '':
                 counter = 0
@@ -58,38 +63,80 @@ class TicTacToe:
             print('Wrong choice {} try again. Allow chooses 0-{}'.format
                       (player_choice, len(self.used_nums)-1))
 
+
     def draw(self):
-        'when all fild are occupied in used_nums return True'
+        '''when all fild are occupied in used_nums return True'''
         return all(1 if ele != '' else 0 for ele in self.used_nums)
 
+    def horizontal_win(self, board):
+        '''check when we have few same signs in row than return True'''
+        player_x, player_o = 0, 0
+        for arr in board:
+            for num in arr:
+                if num == 'X' or num == 'O':
+                    if num == 'X':
+                        player_x += 1
+                    else:
+                        player_o += 1
+                else:
+                    player_x, player_o = 0, 0
+                if player_x >= 3 or player_o >= 3:
+                    if player_x>= 3:
+                        return True
+                    else:
+                        return True
 
+    def vertical_win(self,board):
+        '''check when we have few same signs in column than return True'''
+        c = 0
+        player_x, player_o = 0, 0
+        for _ in range(len(board)):
+            for arr in board :
+                if arr[c] == 'X' or arr[c] == 'O':
+                    if arr[c] == 'X':
+                        player_x += 1
+                    else:
+                        player_o += 1
+                else:
+                    player_x, player_o = 0, 0
+                if player_x >= 3 or player_o >= 3:
+                    if player_x>= 3:
+                        return True
+                    else:
+                        return True
+            else:
+                c += 1
+
+    def diagonal_win(self):
+        return 'diagonal win'
 
     # def winner(self):
     #     '''check who win. Return True when anybody win.'''
-    #     for arr in self.way_to_win:
-    #         if (0 == self.used_nums[arr[0]] == self.used_nums[arr[1]] == self.used_nums[arr[2]] or
-    #             1 == self.used_nums[arr[0]] == self.used_nums[arr[1]] == self.used_nums[arr[2]]):
-    #             return True
-
-
+    #     if self.horizontal_win() or self.vertical_win() or self.diagonal_win():
+    #         return True
 
     def main(self):
         player = 0
-        print(self.board)
         while True:
             print(self.printer())
             while True:
-                choice = input('Choose field 0-{}: '.format(len(self.used_nums) - 1))
-                if self.instert_to_board(player, choice):
-                    if self.draw():
-                        print()
-                        return 'DRAW'
-                    break
+                # make sure input value are valid - is digit
+                valid_val = self.valid_value()
+                if valid_val>=0:
+                    if self.instert_to_board(player, valid_val):
+                        if self.horizontal_win(self.board):
+                            print()
+                            return 'WINNER {}'.format('X' if player == 0 else 'O')
+                        if self.draw():
+                            print()
+                            return 'DRAW'
+                        break
             # switch between players
             if player == 0:
                 player = 1
             else:
                 player = 0
+
 
 game = TicTacToe(4)
 
