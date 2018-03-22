@@ -81,10 +81,7 @@ class TicTacToe:
                 else:
                     player_x, player_o = 0, 0
                 if player_x >= 3 or player_o >= 3:
-                    if player_x>= 3:
-                        return True
-                    else:
-                        return True
+                    return True
 
     def vertical_win(self,board):
         '''check when we have few same signs in column than return True'''
@@ -100,15 +97,25 @@ class TicTacToe:
                 else:
                     player_x, player_o = 0, 0
                 if player_x >= 3 or player_o >= 3:
-                    if player_x>= 3:
-                        return True
-                    else:
-                        return True
+                    return True
             else:
                 c += 1
 
-    def diagonal_win(self):
-        return 'diagonal win'
+    def diagonal_win(self,board):
+        '''check when we have few same signs in diagonals than return True'''
+        print(board)
+        player_x, player_o = 0, 0
+        for i, arr in enumerate(board):
+            if arr[i] == 'X' or arr[i] == 'O':
+                if arr[i] == 'X':
+                    player_x += 1
+                else:
+                    player_o += 1
+            else:
+                player_x, player_o = 0, 0
+            if player_x >= 3 or player_o >= 3:
+                return True
+
 
     # def winner(self):
     #     '''check who win. Return True when anybody win.'''
