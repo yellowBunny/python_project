@@ -26,14 +26,64 @@ class TicTacToe_expand_Test(unittest.TestCase):
     def test_insert_to_board(self):
         '''make sure we have valid value in valid fields '''
         player = 0
-        player_choce = 'dwa'
         instance = TicTacToe_expand.TicTacToe(4)
-        self.assertFalse(instance.instert_to_board(player,player_choce))
-        d = {12 : [[0, 1, 2, 3], [4, 5, 6, 7], [8, 9, 10, 11], ['X', 13, 14, 15]],
-             10: [[0, 1, 2, 3], [4, 5, 6, 7], [8, 9, 'X', 11], ['X', 13, 14, 15]],
-             0: [['X', 1, 2, 3], [4, 5, 6, 7], [8, 9, 'X', 11], ['X', 13, 14, 15]]}
-        for key,val in d.items():
-            self.assertEqual(instance.instert_to_board(player,key),val)
+        self.assertEqual(instance.instert_to_board(player,12),
+                         [[0, 1, 2, 3], [4, 5, 6, 7], [8, 9, 10, 11], ['X', 13, 14, 15]])
+        self.assertEqual(instance.instert_to_board(player, 10),
+                         [[0, 1, 2, 3], [4, 5, 6, 7], [8, 9, 'X', 11], ['X', 13, 14, 15]])
+        self.assertEqual(instance.instert_to_board(player, 0),
+                         [['X', 1, 2, 3], [4, 5, 6, 7], [8, 9, 'X', 11], ['X', 13, 14, 15]])
+        player = 1
+        self.assertEqual(instance.instert_to_board(player, 1),
+                         [['X', 'O', 2, 3], [4, 5, 6, 7], [8, 9, 'X', 11], ['X', 13, 14, 15]])
+        self.assertEqual(instance.instert_to_board(player, 15),
+                         [['X', 'O', 2, 3], [4, 5, 6, 7], [8, 9, 'X', 11], ['X', 13, 14, 'O']])
+
+    def test_horizontal_win(self):
+        '''make sure we have few same signs in row'''
+
+        # board with examples where func should return True
+        instance = TicTacToe_expand.TicTacToe(4)
+        boards = [[[0, 1, 2, 3], [4, 5, 6, 7], [8, 9, 'X', 'O'], ['X', 'X', 'X', 'O']],
+                [[0, 1, 2, 3], [4, 'X', 'X', 'X'], [8, 9, 'X', 11], ['X', 13, 14, 'O']],
+                [[0, 1, 2, 3], [4, 5, 6, 'X'], ['X', 'X', 'X', 11], ['X', 13, 14, 'O']],
+                [[0, 1, 'X', 'X'], ['X', 5, 6, 7], [8, 9, 10, 11], ['O', 13, 14, 'O']],
+                [[0, 1, 'O', 'O'], ['O', 5, 6, 7], [8, 9, 10, 11], ['O', 13, 14, 'O']],
+                [[0, 1, 2, 3], ['O', 'O', 'X', 'O'], ['O', 'O', 10, 11], ['O', 13, 14, 'O']],
+                [[0, 1, 'X', 'X'], ['X', 5, 6, 7], [8, 'O', 'O', 'O'], ['O', 13, 14, 'O']]]
+
+        for arr in boards:
+            self.assertTrue(instance.horizontal_win(arr))
+
+        # board with examples where func should return False
+        boards = [[['X', 1, 2, 3], [4, 5, 6, 7], [8, 9, 'X', 11], ['X', 13, 14, 'O']],
+                  [['X', 1, 'X', 3], [4, 5, 'O', 7], [8, 9, 'X', 11], ['X', 13, 14, 'O']],
+                  [['X', 1, 'X', 3], ['X', 5, 'O', 7], ['O', 9, 'X', 11], ['X', 13, 14, 'O']]]
+
+        for arr in boards:
+            self.assertFalse(instance.horizontal_win(arr))
+    def test_vertical_win(self):
+        '''make sure we have few same signs in column'''
+
+        # board with examples where func should return True
+        instance = TicTacToe_expand.TicTacToe(4)
+        boards = [[['X', 1, 2, 3], ['X', 5, 6, 7], ['X', 9, 10, 11], [12, 13, 14, 15]],
+                  [[0, 1, 2, 'O'], ['X', 5, 'O', 7], ['X', 9, 'O', 11], ['X', 13, 14, 15]],
+                  [[0, 'X', 2, 3], [4, 5, 'O', 7], [8, 9, 'O', 11], [12, 13, 'O', 15]],
+                  [['X', 1, 2, 3], ['X', 5, 6, 'O'], [8, 9, 10, 'O'], [12, 13, 14, 'O']]]
+
+        for arr in boards:
+            self.assertTrue(instance.vertical_win(arr))
+
+        # board with examples where func should return False
+
+        boards = [[['X', 1, 2, 3], ['O', 5, 6, 7], ['X', 9, 10, 11], [12, 13, 14, 15]],
+                  [[0, 1, 2, 'O'], ['O', 5, 'O', 7], ['X', 9, 'O', 11], ['X', 13, 14, 15]],
+                  [[0, 'X', 2, 3], [4, 5, 'O', 7], [8, 9, 'X', 11], [12, 13, 'O', 15]]]
+
+        for arr in boards:
+            self.assertFalse(instance.vertical_win(arr))
+
 
 
 if __name__ == '__main__':
