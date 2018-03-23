@@ -4,11 +4,12 @@ class TicTacToe:
      Player decides how big the board is. Valid board (2 to n)
      where board are matrix n x n. Good Luck and Have Fun.'''
 
-    def __init__(self,martix):
+    def __init__(self, martix ,min_deletions = 3):
         self.matrix = martix
         self.board = self.prepare_board()
         self.used_nums = ['' for _ in range(martix*martix)]
         self.way_to_win = []
+        self.min_length_deletions = min_deletions
 
     def printer(self):
         '''print board with positions to choose'''
@@ -18,7 +19,7 @@ class TicTacToe:
                         for pos in self.board[i]).strip('|')
             print(s)
             if i<len(self.board)-1:
-                print('-'*(len(str(self.matrix**2))+3)*len(self.board[i]))
+                print('-' * (len(str(self.matrix ** 2)) + 3) * len(self.board[i]))
         return ''
 
     def prepare_board(self):
@@ -29,9 +30,9 @@ class TicTacToe:
         start = 0
         next_numbers = self.matrix
         for arr in range(self.matrix):
-            board+=[[i for i in range(start, next_numbers)]]
-            start+=self.matrix
-            next_numbers+=self.matrix
+            board += [[i for i in range(start, next_numbers)]]
+            start += self.matrix
+            next_numbers += self.matrix
         return board
 
     def valid_value(self):
@@ -61,7 +62,7 @@ class TicTacToe:
                 print('Field {} are occupied try again'.format(player_choice))
         else:
             print('Wrong choice {} try again. Allow chooses 0-{}'.format
-                      (player_choice, len(self.used_nums)-1))
+                      (player_choice, len(self.used_nums) - 1))
 
 
     def draw(self):
@@ -80,14 +81,13 @@ class TicTacToe:
                         player_o += 1
                 else:
                     player_x, player_o = 0, 0
-                if player_x >= 3 or player_o >= 3:
+                if player_x >= self.min_length_deletions or player_o >= self.min_length_deletions:
                     return True
 
     def vertical_win(self,board):
         '''check when we have few same signs in column than return True'''
-        c = 0
         player_x, player_o = 0, 0
-        for _ in range(len(board)):
+        for c in range(len(board)):
             for arr in board :
                 if arr[c] == 'X' or arr[c] == 'O':
                     if arr[c] == 'X':
@@ -96,42 +96,46 @@ class TicTacToe:
                         player_o += 1
                 else:
                     player_x, player_o = 0, 0
-                if player_x >= 3 or player_o >= 3:
+                if player_x >= self.min_length_deletions or player_o >= self.min_length_deletions:
                     return True
-            else:
-                c += 1
 
     def diagonal_win(self,board):
-        '''check when we have few same signs in diagonals than return True'''
-        print(board)
+        '''check when we have few same signs in diagonals from left to right than return True.
+        When the input is reversed board function will be checking from right to left'''
+        # print(board)
         player_x, player_o = 0, 0
-        for i, arr in enumerate(board):
-            if arr[i] == 'X' or arr[i] == 'O':
-                if arr[i] == 'X':
-                    player_x += 1
-                else:
-                    player_o += 1
-            else:
-                player_x, player_o = 0, 0
-            if player_x >= 3 or player_o >= 3:
-                return True
+        for loop in range(len(board)):
+            try :
+                for i, arr in enumerate(board):
+                    print(arr[loop + i])
+                    if arr[loop + i] == 'X' or arr[loop + i] == 'O':
+                        if arr[i] == 'X':
+                            player_x += 1
+                        else:
+                            player_o += 1
+                    else:
+                        player_x, player_o = 0, 0
+                    if player_x >= self.min_length_deletions or player_o >= self.min_length_deletions:
+                        return True
+            except:
+                return False
 
-
-    # def winner(self):
-    #     '''check who win. Return True when anybody win.'''
-    #     if self.horizontal_win() or self.vertical_win() or self.diagonal_win():
-    #         return True
+    def winner(self, board):
+        '''check who win. Return True when anybody win.'''
+        if self.horizontal_win(board) or self.vertical_win(board)\
+                or self.diagonal_win(board) or self.diagonal_win([a[::-1] for a in board][::-1]):
+            return True
 
     def main(self):
         player = 0
         while True:
             print(self.printer())
             while True:
-                # make sure input value are valid - is digit
+                # make sure input value are valid - inputs are digit
                 valid_val = self.valid_value()
                 if valid_val>=0:
                     if self.instert_to_board(player, valid_val):
-                        if self.horizontal_win(self.board):
+                        if self.winner(self.board):
                             print()
                             return 'WINNER {}'.format('X' if player == 0 else 'O')
                         if self.draw():
@@ -145,7 +149,7 @@ class TicTacToe:
                 player = 0
 
 
-game = TicTacToe(4)
+game = TicTacToe(5)
 
 if __name__ == '__main__':
     print(game.main())
