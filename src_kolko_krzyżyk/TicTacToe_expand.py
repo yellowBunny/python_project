@@ -1,4 +1,4 @@
-
+from time import sleep
 class TicTacToe:
     '''Simple game for two person in Tic Tac Toe.
      Player decides how big the board is. Valid board (2 to n)
@@ -77,12 +77,17 @@ class TicTacToe:
                 if num == 'X' or num == 'O':
                     if num == 'X':
                         player_x += 1
+                        player_o = 0
                     else:
                         player_o += 1
-                else:
-                    player_x, player_o = 0, 0
+                        player_x = 0
                 if player_x >= self.min_length_deletions or player_o >= self.min_length_deletions:
+                    print('horizontal')
                     return True
+            else:
+                player_x, player_o = 0, 0
+        return False
+
 
     def vertical_win(self,board):
         '''check when we have few same signs in column than return True'''
@@ -92,36 +97,46 @@ class TicTacToe:
                 if arr[c] == 'X' or arr[c] == 'O':
                     if arr[c] == 'X':
                         player_x += 1
+                        player_o = 0
                     else:
                         player_o += 1
-                else:
-                    player_x, player_o = 0, 0
+                        player_x = 0
                 if player_x >= self.min_length_deletions or player_o >= self.min_length_deletions:
+                    print('vertical')
                     return True
+            else:
+                player_x, player_o = 0, 0
+        return False
 
     def diagonal_win(self,board):
         '''check when we have few same signs in diagonals from left to right than return True.
         When the input is reversed board function will be checking from right to left'''
-        # print(board)
         player_x, player_o = 0, 0
         for loop in range(len(board)):
-            try :
-                for i, arr in enumerate(board):
-                    print(arr[loop + i])
+            for i, arr in enumerate(board):
+                #sleep(2)
+                if loop + i < len(arr):
+                    #print(arr[loop + i], 'X', player_x, 'O', player_o)
                     if arr[loop + i] == 'X' or arr[loop + i] == 'O':
-                        if arr[i] == 'X':
+                        if arr[loop + i] == 'X':
                             player_x += 1
+                            player_o = 0
                         else:
                             player_o += 1
-                    else:
-                        player_x, player_o = 0, 0
+                            player_x = 0
                     if player_x >= self.min_length_deletions or player_o >= self.min_length_deletions:
+                        print('diagonal')
                         return True
-            except:
-                return False
+            else:
+                #print('end arr')
+                player_x, player_o = 0, 0
+        return False
+
+
 
     def winner(self, board):
         '''check who win. Return True when anybody win.'''
+        print(self.board)
         if self.horizontal_win(board) or self.vertical_win(board)\
                 or self.diagonal_win(board) or self.diagonal_win([a[::-1] for a in board][::-1]):
             return True
