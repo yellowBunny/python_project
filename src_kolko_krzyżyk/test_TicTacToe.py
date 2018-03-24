@@ -46,11 +46,7 @@ class TicTacToe_expand_Test(unittest.TestCase):
         instance = TicTacToe_expand.TicTacToe(4)
         boards = [[[0, 1, 2, 3], [4, 5, 6, 7], [8, 9, 'X', 'O'], ['X', 'X', 'X', 'O']],
                 [[0, 1, 2, 3], [4, 'X', 'X', 'X'], [8, 9, 'X', 11], ['X', 13, 14, 'O']],
-                [[0, 1, 2, 3], [4, 5, 6, 'X'], ['X', 'X', 'X', 11], ['X', 13, 14, 'O']],
-                [[0, 1, 'X', 'X'], ['X', 5, 6, 7], [8, 9, 10, 11], ['O', 13, 14, 'O']],
-                [[0, 1, 'O', 'O'], ['O', 5, 6, 7], [8, 9, 10, 11], ['O', 13, 14, 'O']],
-                [[0, 1, 2, 3], ['O', 'O', 'X', 'O'], ['O', 'O', 10, 11], ['O', 13, 14, 'O']],
-                [[0, 1, 'X', 'X'], ['X', 5, 6, 7], [8, 'O', 'O', 'O'], ['O', 13, 14, 'O']]]
+                [[0, 1, 2, 3], [4, 5, 6, 'X'], ['X', 'X', 'X', 11], ['X', 13, 14, 'O']],]
 
         for arr in boards:
             self.assertTrue(instance.horizontal_win(arr))
@@ -58,7 +54,11 @@ class TicTacToe_expand_Test(unittest.TestCase):
         # board with examples where func should return False
         boards = [[['X', 1, 2, 3], [4, 5, 6, 7], [8, 9, 'X', 11], ['X', 13, 14, 'O']],
                   [['X', 1, 'X', 3], [4, 5, 'O', 7], [8, 9, 'X', 11], ['X', 13, 14, 'O']],
-                  [['X', 1, 'X', 3], ['X', 5, 'O', 7], ['O', 9, 'X', 11], ['X', 13, 14, 'O']]]
+                  [['X', 1, 'X', 3], ['X', 5, 'O', 7], ['O', 9, 'X', 11], ['X', 13, 14, 'O']],
+                  [[0, 1, 'X', 'X'], ['X', 5, 'O', 7], ['O', 9, 'X', 11], ['X', 13, 14, 'O']],
+                  [[0, 1, 2, 3], ['O', 'O', 'X', 'O'], ['O', 'O', 10, 11], ['O', 13, 14, 'O']],
+                  [[0, 1, 'O', 'O'], ['O', 5, 6, 7], [8, 9, 10, 11], ['O', 13, 14, 'O']],
+                  [[0, 1, 'X', 'X'], ['X', 5, 6, 7], [8, 9, 10, 11], ['O', 13, 14, 'O']],]
 
         for arr in boards:
             self.assertFalse(instance.horizontal_win(arr))
@@ -89,7 +89,8 @@ class TicTacToe_expand_Test(unittest.TestCase):
         '''make sure we have few same signs in diagonals'''
         instance = TicTacToe_expand.TicTacToe(4)
 
-        # board with examples where func should return True
+        #board with examples where func should return True 4 x 4
+
         boards = [[['X', 1, 'O', 3],[4, 'X', 6, 7],[8, 9, 'X', 11],[12, 'O', 14, 15]],
                   [[0, 'X', 2, 'X'], [4, 5, 'X', 7], [8, 'O', 10, 'X'], [12, 13, 14, 15]],
                   [[0, 'O', 'X', 3], ['X', 5, 6, 7], [8, 'X', 10, 11], [12, 13, 'X', 15]],
@@ -112,6 +113,24 @@ class TicTacToe_expand_Test(unittest.TestCase):
         for arr in boards:
             self.assertFalse(instance.diagonal_win(arr))
 
+        # board with examples where func should return True
+        instance = TicTacToe_expand.TicTacToe(5)
+
+        boards = [[[0, 1, 'X', 3, 4], [5, 6, 7, 'X', 9], [10, 11, 12, 13, 'X'],
+            [15, 16, 17, 18, 19], [20, 21, 22, 23, 24]],
+             [['O', 1, 'X', 3, 4], [5, 'O', 7, 'X', 9], [10, 11, 'O', 13, 'X'],
+            [15, 16, 17, 18, 19], [20, 21, 22, 23, 24]],]
+
+        for arr in boards:
+            self.assertTrue(instance.diagonal_win(arr))
+
+        # reversed test
+        boards = [[0, 1, 2, 3, 4], [5, 6, 7, 8, 9], [10, 11, 'X', 13, 14],
+         [15, 16, 17, 'X', 19], [20, 21, 22, 23, 'X']]
+
+        self.assertTrue(instance.diagonal_win([a[::-1] for a in boards][::-1]))
+
+
     def test_winner(self):
         instance = TicTacToe_expand.TicTacToe(4)
         boards = [[['X', 1, 'O', 3], [4, 'X', 6, 7], [8, 9, 'X', 11], [12, 'O', 14, 15]],
@@ -120,13 +139,13 @@ class TicTacToe_expand_Test(unittest.TestCase):
                   [['X', 1, 2, 3], ['X', 5, 6, 7], ['X', 9, 10, 11], [12, 13, 14, 15]],
                   [[0, 1, 2, 'O'], ['X', 5, 'O', 7], ['X', 9, 'O', 11], ['X', 13, 14, 15]],
                   [[0, 'X', 2, 3], [4, 5, 'O', 7], [8, 9, 'O', 11], [12, 13, 'O', 15]],
-                  [['X', 1, 2, 3], ['X', 5, 6, 'O'], [8, 9, 10, 'O'], [12, 13, 14, 'O']]]
+                  [['X', 1, 2, 3], ['X', 5, 6, 'O'], [8, 9, 10, 'O'], [12, 13, 14, 'O']],
+                  [[0, 1, 2, 3], [4, 'O', 6, 7], [8, 7, 'O', 11], [12, 13, 14, 'O']],]
 
         for arr in boards:
             self.assertTrue(instance.winner(arr))
 
-    def test_main(self):
-        pass
+
 
 if __name__ == '__main__':
     unittest.main()
