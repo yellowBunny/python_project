@@ -11,15 +11,15 @@ class TicTacToe:
         self.way_to_win = []
         self.min_length_deletions = min_deletions
 
-    def printer(self):
+    def printer(self, board):
         '''print board with positions to choose'''
         pattern = ' {}{}|'.format('{}', ' ')
-        for i in range(len(self.board)):
+        for i in range(len(board)):
             s = ''.join(pattern.format(str(pos).rjust(len(str(self.matrix**2))))
-                        for pos in self.board[i]).strip('|')
+                        for pos in board[i]).strip('|')
             print(s)
-            if i<len(self.board)-1:
-                print('-' * (len(str(self.matrix ** 2)) + 3) * len(self.board[i]))
+            if i<len(board)-1:
+                print('-' * (len(str(self.matrix ** 2)) + 3) * len(board[i]))
         return ''
 
     def prepare_board(self):
@@ -82,14 +82,13 @@ class TicTacToe:
                         player_o += 1
                         player_x = 0
                 if player_x >= self.min_length_deletions or player_o >= self.min_length_deletions:
-                    print('horizontal')
+                    #print('horizontal')
                     return True
             else:
                 player_x, player_o = 0, 0
         return False
 
-
-    def vertical_win(self,board):
+    def vertical_win(self, board):
         '''check when we have few same signs in column than return True'''
         player_x, player_o = 0, 0
         for c in range(len(board)):
@@ -102,21 +101,24 @@ class TicTacToe:
                         player_o += 1
                         player_x = 0
                 if player_x >= self.min_length_deletions or player_o >= self.min_length_deletions:
-                    print('vertical')
+                    #print('vertical')
                     return True
             else:
                 player_x, player_o = 0, 0
         return False
 
-    def diagonal_win(self,board):
-        '''check when we have few same signs in diagonals from left to right than return True.
-        When the input is reversed board function will be checking from right to left'''
+    def diagonal_win_to_right(self, board):
+        ''' From left to right signs deletions.
+        check when we have few same signs in diagonals from middle to top-right corner
+        than return True.
+        When the input is reversed board function will be checking from middle to bottom-left corner'''
         player_x, player_o = 0, 0
+        #print(board)
+        #print(self.printer(board))
         for loop in range(len(board)):
             for i, arr in enumerate(board):
-                #sleep(2)
                 if loop + i < len(arr):
-                    #print(arr[loop + i], 'X', player_x, 'O', player_o)
+                    #print(arr[loop + i])
                     if arr[loop + i] == 'X' or arr[loop + i] == 'O':
                         if arr[loop + i] == 'X':
                             player_x += 1
@@ -125,26 +127,38 @@ class TicTacToe:
                             player_o += 1
                             player_x = 0
                     if player_x >= self.min_length_deletions or player_o >= self.min_length_deletions:
-                        print('diagonal')
+                        #print('diagonal_to_right')
                         return True
             else:
-                #print('end arr')
                 player_x, player_o = 0, 0
         return False
 
-
+    def diagonal_win_to_left(self, board):
+        '''from right to left signs deletions.
+        Similar to diagonal_win_to_right'''
+        reversed_board = [a[::-1] for a in board]
+        if self.diagonal_win_to_right(reversed_board):
+            #print('next diagonal')
+            return True
+        else:
+            return False
 
     def winner(self, board):
         '''check who win. Return True when anybody win.'''
         print(self.board)
+        print(self.printer(board))
         if self.horizontal_win(board) or self.vertical_win(board)\
-                or self.diagonal_win(board) or self.diagonal_win([a[::-1] for a in board][::-1]):
+        or self.diagonal_win_to_right(board)\
+        or self.diagonal_win_to_right([a[::-1] for a in board][::-1])\
+        or self.diagonal_win_to_left(board) \
+        or self.diagonal_win_to_left([a[::-1] for a in board][::-1]):
+            print('Win')
             return True
 
     def main(self):
         player = 0
         while True:
-            print(self.printer())
+            print(self.printer(self.board))
             while True:
                 # make sure input value are valid - inputs are digit
                 valid_val = self.valid_value()
@@ -162,7 +176,6 @@ class TicTacToe:
                 player = 1
             else:
                 player = 0
-
 
 game = TicTacToe(5)
 
