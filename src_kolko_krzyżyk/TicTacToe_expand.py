@@ -1,4 +1,3 @@
-from time import sleep
 class TicTacToe:
     '''Simple game for two person in Tic Tac Toe.
      Player decides how big the board is. Valid board (2 to n)
@@ -18,7 +17,7 @@ class TicTacToe:
             s = ''.join(pattern.format(str(pos).rjust(len(str(self.matrix**2))))
                         for pos in board[i]).strip('|')
             print(s)
-            if i<len(board)-1:
+            if i < len(board) - 1:
                 print('-' * (len(str(self.matrix ** 2)) + 3) * len(board[i]))
         return ''
 
@@ -82,7 +81,6 @@ class TicTacToe:
                         player_o += 1
                         player_x = 0
                 if player_x >= self.min_length_deletions or player_o >= self.min_length_deletions:
-                    #print('horizontal')
                     return True
             else:
                 player_x, player_o = 0, 0
@@ -101,7 +99,6 @@ class TicTacToe:
                         player_o += 1
                         player_x = 0
                 if player_x >= self.min_length_deletions or player_o >= self.min_length_deletions:
-                    #print('vertical')
                     return True
             else:
                 player_x, player_o = 0, 0
@@ -113,12 +110,9 @@ class TicTacToe:
         than return True.
         When the input is reversed board function will be checking from middle to bottom-left corner'''
         player_x, player_o = 0, 0
-        #print(board)
-        #print(self.printer(board))
         for loop in range(len(board)):
             for i, arr in enumerate(board):
                 if loop + i < len(arr):
-                    #print(arr[loop + i])
                     if arr[loop + i] == 'X' or arr[loop + i] == 'O':
                         if arr[loop + i] == 'X':
                             player_x += 1
@@ -127,18 +121,29 @@ class TicTacToe:
                             player_o += 1
                             player_x = 0
                     if player_x >= self.min_length_deletions or player_o >= self.min_length_deletions:
-                        #print('diagonal_to_right')
                         return True
             else:
                 player_x, player_o = 0, 0
         return False
 
     def diagonal_win_to_left(self, board):
-        '''from right to left signs deletions.
-        Similar to diagonal_win_to_right'''
+        '''from right to left signs deletions. Similar to diagonal_win_to_right.
+        Convert board 
+        from 
+        0 | 1 | 2
+        ------------
+        3 | 4 | 5
+        ------------
+        6 | 7 | 8
+        to 
+        2 | 1 | 0 
+        ------------
+        5 | 4 | 3 
+        ------------
+        8 | 7 | 6 
+        '''
         reversed_board = [a[::-1] for a in board]
         if self.diagonal_win_to_right(reversed_board):
-            #print('next diagonal')
             return True
         else:
             return False
@@ -152,8 +157,9 @@ class TicTacToe:
         or self.diagonal_win_to_right([a[::-1] for a in board][::-1])\
         or self.diagonal_win_to_left(board) \
         or self.diagonal_win_to_left([a[::-1] for a in board][::-1]):
-            print('Win')
             return True
+        else:
+            return False
 
     def main(self):
         player = 0
