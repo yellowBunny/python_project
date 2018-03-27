@@ -1,5 +1,6 @@
 import unittest
 import TicTacToe_expand
+import random
 
 class TicTacToe_expand_Test(unittest.TestCase):
 
@@ -149,23 +150,44 @@ class TicTacToe_expand_Test(unittest.TestCase):
     #         self.assertTrue(instance.diagonal_win_to_left([a[::-1] for a in arr][::-1]))
     #
     #
-    def test_winner(self):
-        instance = TicTacToe_expand.TicTacToe(4)
-        boards = [[['X', 1, 'O', 3], [4, 'X', 6, 7], [8, 9, 'X', 11], [12, 'O', 14, 15]],
-                  [[0, 'X', 2, 'X'], [4, 5, 'X', 7], [8, 'O', 10, 'X'], [12, 13, 14, 15]],
-                  [[0, 'O', 'X', 3], ['X', 5, 6, 7], [8, 'X', 10, 11], [12, 13, 'X', 15]],
-                  [['X', 1, 2, 3], ['X', 5, 6, 7], ['X', 9, 10, 11], [12, 13, 14, 15]],
-                  [[0, 1, 2, 'O'], ['X', 5, 'O', 7], ['X', 9, 'O', 11], ['X', 13, 14, 15]],
-                  [[0, 'X', 2, 3], [4, 5, 'O', 7], [8, 9, 'O', 11], [12, 13, 'O', 15]],
-                  [['X', 1, 2, 3], ['X', 5, 6, 'O'], [8, 9, 10, 'O'], [12, 13, 14, 'O']],
-                  [[0, 1, 2, 3], [4, 'O', 6, 7], [8, 7, 'O', 11], [12, 13, 14, 'O']],]
+    # def test_winner(self):
+    #     instance = TicTacToe_expand.TicTacToe(4)
+    #     boards = [[['X', 1, 'O', 3], [4, 'X', 6, 7], [8, 9, 'X', 11], [12, 'O', 14, 15]],
+    #               [[0, 'X', 2, 'X'], [4, 5, 'X', 7], [8, 'O', 10, 'X'], [12, 13, 14, 15]],
+    #               [[0, 'O', 'X', 3], ['X', 5, 6, 7], [8, 'X', 10, 11], [12, 13, 'X', 15]],
+    #               [['X', 1, 2, 3], ['X', 5, 6, 7], ['X', 9, 10, 11], [12, 13, 14, 15]],
+    #               [[0, 1, 2, 'O'], ['X', 5, 'O', 7], ['X', 9, 'O', 11], ['X', 13, 14, 15]],
+    #               [[0, 'X', 2, 3], [4, 5, 'O', 7], [8, 9, 'O', 11], [12, 13, 'O', 15]],
+    #               [['X', 1, 2, 3], ['X', 5, 6, 'O'], [8, 9, 10, 'O'], [12, 13, 14, 'O']],
+    #               [[0, 1, 2, 3], [4, 'O', 6, 7], [8, 7, 'O', 11], [12, 13, 14, 'O']],]
+    #
+    #     for arr in boards:
+    #         self.assertTrue(instance.winner(arr))
 
-        for arr in boards:
-            self.assertTrue(instance.winner(arr))
 
     def test_random_tests(self):
-        pass
+        # for matrix 3 x 3 with three deletions
+        matrix = 3
+        SIGNS = ['X','O','']
+        instance = TicTacToe_expand.TicTacToe(matrix)
+        # create a random boards
+        boards = [[[random.choice(SIGNS) for _ in range(matrix)] for arrays in range(matrix)]
+                  for loop in range(100)]
+        for_true = []
+        for_false = []
+        for arr in boards:
+            if instance.winner(arr):
+                for_true += [arr]
+            else:
+                for_false += [arr]
+        # testing for True
+        for arr in for_true:
+            self.assertTrue(instance.winner(arr))
+        # testing for False
+        for arr in for_false:
+            self.assertFalse(instance.winner(arr))
 
+        # for matrix 4 x 4 with 3 deletions
 
 
 if __name__ == '__main__':
