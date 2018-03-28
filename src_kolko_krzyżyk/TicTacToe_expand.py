@@ -128,7 +128,8 @@ class TicTacToe:
 
     def diagonal_win_to_left(self, board):
         '''from right to left signs deletions. Similar to diagonal_win_to_right.
-        Convert board 
+        in first we convert board next call above method.
+        Convertion example:
         from 
         0 | 1 | 2
         ------------
@@ -150,15 +151,16 @@ class TicTacToe:
 
     def winner(self, board):
         '''check who win. Return True when anybody win.'''
-        print(self.board)
         print(self.printer(board))
         if self.horizontal_win(board) or self.vertical_win(board)\
         or self.diagonal_win_to_right(board)\
         or self.diagonal_win_to_right([a[::-1] for a in board][::-1])\
         or self.diagonal_win_to_left(board) \
         or self.diagonal_win_to_left([a[::-1] for a in board][::-1]):
+            print('Win')
             return True
         else:
+            print('False')
             return False
 
     def main(self):
