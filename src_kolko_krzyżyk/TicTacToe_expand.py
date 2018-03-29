@@ -170,7 +170,7 @@ class TicTacToe:
             while True:
                 # make sure input value are valid - inputs are digit
                 valid_val = self.valid_value()
-                if valid_val>=0:
+                if valid_val >= 0:
                     if self.instert_to_board(player, valid_val):
                         if self.winner(self.board):
                             print()
@@ -185,7 +185,30 @@ class TicTacToe:
             else:
                 player = 0
 
-game = TicTacToe(5)
+def menu():
+    print('''\n\n\t"Simple game for two person in Tic Tac Toe.
+     Player decides how big the board is. Valid board (2 to n)
+     where board are matrix n x n. Good Luck and Have Fun."\n\n''')
+
+    matrix_choice = input('Please enter size of martix from two to n: ')
+    try:
+        matrix_choice = int(matrix_choice)
+    except:
+        raise ValueError
+
+    while True:
+        deletion_choice = int(input('Please enter number of deletions:'
+                                        'Note: 1 <= deletions <= matrix: '))
+        try:
+            deletion_choice = int(deletion_choice)
+        except:
+            raise ValueError
+        if 1<= deletion_choice <=matrix_choice:
+            return TicTacToe(matrix_choice, deletion_choice).main()
+        else:
+            print('Error deletions number')
+            
+#main
 
 if __name__ == '__main__':
-    print(game.main())
+    print(menu())
