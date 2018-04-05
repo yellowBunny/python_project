@@ -185,35 +185,36 @@ class TicTacToe:
             else:
                 player = 0
 
-def menu():
-    print('''\n\n\t"Simple game for two person in Tic Tac Toe.
-     Player decides how big the board is. Valid board (2 to n)
-     where board are matrix n x n. Good Luck and Have Fun."\n\n''')
-    # default matrix_choice
-    matrix_choice = 3
+def matrix_choice():
     while True:
         matrix_choice = input('Please enter size of martix from two to n: ')
         try:
             matrix_choice = int(matrix_choice)
-            break
+            return matrix_choice
         except:
             print("Dosen't entered number please try again" )
 
+def deletion_condition_to_win(matrix_size):
     while True:
         deletion_choice = input('Please enter number of deletions:'
                                         'Note: 1 <= deletions <= matrix: ')
         try:
             deletion_choice = int(deletion_choice)
-            if 1 <= deletion_choice <= matrix_choice:
-                return TicTacToe(matrix_choice, deletion_choice).main()
+            if 1 <= deletion_choice <= matrix_size:
+                return TicTacToe(matrix_size, deletion_choice).main()
             else:
                 print('Error deletions number')
         except:
             print("Dosen't entered number please try again")
 
+def menu():
+    print('''\n\n\t"Simple game for two person in Tic Tac Toe.
+     Player decides how big the board is. Valid board (2 to n)
+     where board are matrix n x n. Good Luck and Have Fun."\n\n''')
+    matrix_size = matrix_choice()
+    return deletion_condition_to_win(matrix_size)
 
 
-#main
 
 if __name__ == '__main__':
     print(menu())
