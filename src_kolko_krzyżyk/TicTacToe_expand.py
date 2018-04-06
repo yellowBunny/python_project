@@ -186,6 +186,7 @@ class TicTacToe:
                 player = 0
 
 def matrix_choice():
+    '''determine size of martix necessary to play'''
     while True:
         matrix_choice = input('Please enter size of martix from two to n: ')
         try:
@@ -195,13 +196,14 @@ def matrix_choice():
             print("Dosen't entered number please try again" )
 
 def deletion_condition_to_win(matrix_size):
+    '''determine size of deletions signs "X" and "O" in rows, columns or diagonals '''
     while True:
         deletion_choice = input('Please enter number of deletions:'
                                         'Note: 1 <= deletions <= matrix: ')
         try:
             deletion_choice = int(deletion_choice)
             if 1 <= deletion_choice <= matrix_size:
-                return TicTacToe(matrix_size, deletion_choice).main()
+                return deletion_choice
             else:
                 print('Error deletions number')
         except:
@@ -212,7 +214,8 @@ def menu():
      Player decides how big the board is. Valid board (2 to n)
      where board are matrix n x n. Good Luck and Have Fun."\n\n''')
     matrix_size = matrix_choice()
-    return deletion_condition_to_win(matrix_size)
+    deletion_condition = deletion_condition_to_win(matrix_size)
+    return TicTacToe(matrix_size, deletion_condition).main()
 
 
 
